@@ -47,9 +47,9 @@ Conventional Commits is a specification for adding human and machine-readable me
 
 ## Screenshots
 
-![Products Screen](./screenshots/products_screen.png)
-![Checkout Screen](./screenshots/checkout_screen.png)
-![Order Successful Screen](./screenshots/order_successful_screen.png)
+| Products Screen                                                                 | Checkout Screen                                                                  | Order Successful Screen                                                           |
+|---------------------------------------------------------------------------------|----------------------------------------------------------------------------------|-----------------------------------------------------------------------------------|
+| <img src="screenshots/products_screen.png" alt="Products Screen" width="200"/>  | <img src="screenshots/checkout_screen.png" alt="Checkout Screen" width="200"/>   | <img src="screenshots/order_successful_screen.png" alt="Order Successful Screen" width="200"/> |
 
 ## Setup Instructions
 
