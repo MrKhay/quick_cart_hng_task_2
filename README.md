@@ -66,11 +66,11 @@ Conventional Commits is a specification for adding human and machine-readable me
 
 ## APK Download
 
-Download the APK file from [here](https://link-to-apk.com).
+Download the APK file from [here](https://github.com/MrKhay/quick_cart/releases/tag/v1.0.0).
 
 ## Appetize.io Showcase
 
-Check out the virtualized demonstration of the app on [Appetize.io](https://appetize.io/app/demo-link).
+Check out the virtualized demonstration of the app on [Appetize.io](https://appetize.io/app/b_xf3naqxoeg2nwnhzvrzs2fanbm).
 
 ## Contact
 
