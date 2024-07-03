@@ -4,6 +4,33 @@
 
 A simple shopping app that displays a list of products/items statically in a shop and includes a checkout screen.
 
+## Commit Convention
+
+Conventional Commits is a specification for adding human and machine-readable meaning to commit messages. The format is:
+
+```bash
+<type>[optional scope]: <description>
+
+[optional body]
+
+[optional footer(s)]
+```
+
+### Types
+
+- feat: A new feature
+- fix: A bug fix
+- docs: Documentation only changes
+- style: Changes that do not affect the meaning of the code
+- refactor: A code change that neither fixes a bug nor adds a feature
+- perf: A code change that improves performance
+- test: Adding missing tests or correcting existing tests
+- build: Changes that affect the build system or external dependencies
+- ci: Changes to our CI configuration files and scripts
+- chore: Other changes that don't modify src or test files
+- revert: Reverts a previous commit
+...
+
 ## Objectives
 
 - Create a simple shopping app with a bottom navigation bar.
@@ -30,7 +57,7 @@ A simple shopping app that displays a list of products/items statically in a sho
 
     ```sh
     git clone https://github.com/MrKhay/quick_cart.git
-    cd simple-shopping-app
+    cd quick_cart
     ```
 
 2. Open the project in your chosen development environment (e.g., Android Studio for Android, Xcode for iOS).
