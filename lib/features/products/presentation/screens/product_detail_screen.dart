@@ -38,7 +38,7 @@ class ProductDetailScreenState extends State<ProductDetailScreen> {
       children: <Widget>[
         SizedBox(
           width: double.maxFinite,
-          height: context.screenSize.height * 0.75,
+          height: context.screenSize.height * 0.73,
           child: ListView(
             children: <Widget>[
               /// Image
