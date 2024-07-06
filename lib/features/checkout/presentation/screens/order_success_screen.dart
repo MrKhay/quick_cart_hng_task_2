@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../quick_cart.dart';
 import '../../../_common/common.dart';
@@ -50,23 +51,26 @@ class OrderSuccessScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: kGap_3),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
-              onPressed: () {
-                /// clear order
-                OrderDataProvider.of(context).clearOrders();
+            Consumer(
+                builder: (BuildContext context, WidgetRef ref, Widget? child) {
+              return ElevatedButton(
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
+                onPressed: () {
+                  /// clear order
+                  ref.read(ordersDataNotifierProvider.notifier).clearOrders();
 
-                /// naviagte to order success screen
-                navigator.pop();
-              },
-              child: Text(
-                kContinueShopping,
-                style: context.textTheme.bodyMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
+                  /// naviagte to order success screen
+                  navigator.pop();
+                },
+                child: Text(
+                  kContinueShopping,
+                  style: context.textTheme.bodyMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
                 ),
-              ),
-            )
+              );
+            })
           ],
         ),
       ),
