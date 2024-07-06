@@ -58,7 +58,7 @@ Conventional Commits is a specification for adding human and machine-readable me
 1. Clone the repository:
 
     ```sh
-    git clone https://github.com/MrKhay/quick_cart.git
+    git clone https://github.com/MrKhay/quick_cart_hng_task_2.git
     cd quick_cart
     ```
 
@@ -68,7 +68,7 @@ Conventional Commits is a specification for adding human and machine-readable me
 
 ## APK Download
 
-Download the APK file from [here](https://github.com/MrKhay/quick_cart/releases/tag/v1.0.0).
+Download the APK file from [here](https://github.com/MrKhay/quick_cart_hng_task_2/releases/tag/v1.0.0/app-release.apk).
 
 ## Appetize.io Showcase
 
