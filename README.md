@@ -1,8 +1,10 @@
-# Simple Shopping App (Quick Cart)
+# HNG Task 2
+
+## Simple Shopping App (Quick Cart)
 
 ## Description
 
-A simple shopping app that displays a list of products/items statically in a shop and includes a checkout screen.
+A simple shopping app that displays a list of products/items fetched from the Timu API and includes a checkout screen.
 
 ## Commit Convention
 
@@ -47,9 +49,9 @@ Conventional Commits is a specification for adding human and machine-readable me
 
 ## Screenshots
 
-| Products Screen                                                                 | Checkout Screen                                                                  | Order Successful Screen                                                           |
-|---------------------------------------------------------------------------------|----------------------------------------------------------------------------------|-----------------------------------------------------------------------------------|
-| <img src="screenshots/products_screen.png" alt="Products Screen" width="200"/>  | <img src="screenshots/checkout_screen.png" alt="Checkout Screen" width="200"/>   | <img src="screenshots/order_successful_screen.png" alt="Order Successful Screen" width="200"/> |
+| Products Screen                                                                 | Product Detail Screen                                                             | Checkout  Screen                                                                  | Order Successful Screen                                                           |
+|---------------------------------------------------------------------------------|----------------------------------------------------------------------------------|----------------------------------------------------------------------------------|-----------------------------------------------------------------------------------|
+| ![Products Screen](screenshots/products_screen.png)                             | ![Product Detail Screen](screenshots/product_detail_screen.png)                   | ![Checkout Screen](screenshots/checkout_screen.png)                              | ![Order Successful Screen](screenshots/order_successful_screen.png)               |
 
 ## Setup Instructions
 
@@ -70,7 +72,7 @@ Download the APK file from [here](https://github.com/MrKhay/quick_cart/releases/
 
 ## Appetize.io Showcase
 
-Check out the virtualized demonstration of the app on [Appetize.io](https://appetize.io/app/b_xf3naqxoeg2nwnhzvrzs2fanbm).
+Check out the virtualized demonstration of the app on [Appetize.io](https://appetize.io/app/b_rifmpmyuhzxbz4awsw3lxqu74y).
 
 ## Contact
 
