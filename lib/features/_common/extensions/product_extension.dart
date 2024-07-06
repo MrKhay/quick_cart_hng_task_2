@@ -7,11 +7,13 @@ extension ProductExtensions on List<Product> {
     final List<String> categories = <String>[];
 
     // Added default category
-    categories.add('All');
+    categories.add('all');
 
     for (final Product product in this) {
-      if (!categories.contains(product.catergory)) {
-        categories.add(product.catergory);
+      for (final String category in product.categories ?? <String>[]) {
+        if (!categories.contains(category)) {
+          categories.add(category);
+        }
       }
     }
     return categories;
@@ -20,7 +22,8 @@ extension ProductExtensions on List<Product> {
   /// Returns all products that matches category
   List<Product> filterByCategory(String category) {
     /// Returns all products if category is all
-    if (category == 'All') return this;
-    return where((Product p) => p.catergory == category).toList();
+    if (category == 'all') return this;
+    return where((Product p) => p.categories?.contains(category) ?? false)
+        .toList();
   }
 }

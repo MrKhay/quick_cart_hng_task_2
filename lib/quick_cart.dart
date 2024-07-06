@@ -1,21 +1,32 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'features/checkout/presentation/screens/checkout_screen.dart';
 import 'features/features.dart';
 
 ///
-class QuickCart extends StatefulWidget {
+class QuickCart extends ConsumerStatefulWidget {
   ///
   const QuickCart({super.key});
 
   @override
-  QuickCartState createState() => QuickCartState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _QuickCartState();
 }
 
-///
-class QuickCartState extends State<QuickCart> {
+class _QuickCartState extends ConsumerState<QuickCart> {
   int _selectedIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    // load products
+    ref.read(productsDataNotifierProvider);
+
+    // load orders
+    ref.read(ordersDataNotifierProvider);
+
+    // load network state
+    ref.read(networkStateNotifierProvider);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,8 +61,8 @@ class QuickCartState extends State<QuickCart> {
             // enableFloatingNavBar: false(
             destinations: const <Widget>[
               NavigationDestination(
-                icon: Icon(Icons.shopping_basket),
-                label: kProducts,
+                icon: Icon(Icons.home),
+                label: kHome,
               ),
               NavigationDestination(
                 icon: Icon(Icons.shopping_cart_rounded),
@@ -66,6 +77,6 @@ class QuickCartState extends State<QuickCart> {
 }
 
 const List<StatefulWidget> _screens = <StatefulWidget>[
-  ProductsScreen(),
+  HomeScreen(),
   CheckoutScreen(),
 ];

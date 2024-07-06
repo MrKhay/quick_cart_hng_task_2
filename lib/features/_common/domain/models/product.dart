@@ -1,7 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
-
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
+import '../../constants/constants.dart';
 
 @immutable
 
@@ -13,41 +13,41 @@ class Product {
   /// name of product
   final String name;
 
-  /// category of product
-  final String catergory;
-
-  /// product image url
-  final String imgUrl;
-
-  /// price of product
-  final double price;
-
   /// product description
   final String description;
+
+  /// category of product
+  final List<String>? categories;
+
+  /// product image url
+  final List<String>? photos;
+
+  /// price of product
+  final double currentPrice;
   const Product({
     required this.id,
     required this.name,
-    required this.catergory,
-    required this.imgUrl,
-    required this.price,
     required this.description,
+    this.categories,
+    this.photos,
+    required this.currentPrice,
   });
 
   Product copyWith({
     String? id,
     String? name,
-    String? catergory,
-    String? imgUrl,
-    double? price,
     String? description,
+    List<String>? categories,
+    List<String>? photos,
+    double? currentPrice,
   }) {
     return Product(
       id: id ?? this.id,
       name: name ?? this.name,
-      catergory: catergory ?? this.catergory,
-      imgUrl: imgUrl ?? this.imgUrl,
-      price: price ?? this.price,
       description: description ?? this.description,
+      categories: categories ?? this.categories,
+      photos: photos ?? this.photos,
+      currentPrice: currentPrice ?? this.currentPrice,
     );
   }
 
@@ -55,10 +55,10 @@ class Product {
     return <String, dynamic>{
       'id': id,
       'name': name,
-      'catergory': catergory,
-      'imgUrl': imgUrl,
-      'price': price,
       'description': description,
+      'categories': categories,
+      'photos': photos,
+      'currentPrice': currentPrice,
     };
   }
 
@@ -66,10 +66,25 @@ class Product {
     return Product(
       id: map['id'] as String,
       name: map['name'] as String,
-      catergory: map['catergory'] as String,
-      imgUrl: map['imgUrl'] as String,
-      price: map['price'] as double,
       description: map['description'] as String,
+      categories: (map['categories'] as List<dynamic>).isNotEmpty
+          ? List<dynamic>.from(map['categories'] as List<dynamic>)
+              .map((dynamic category) => category['name'] as String)
+              .toList()
+          : null,
+      photos: (map['photos'] as List<dynamic>).isNotEmpty
+          ? List<dynamic>.from(map['photos'] as List<dynamic>)
+              .map((dynamic category) =>
+                  kTimuImageBaseUrl + category['url'].toString())
+              .toList()
+          : null,
+      currentPrice: (map['current_price'] as List<dynamic>).isNotEmpty
+          ? List<dynamic>.from(map['current_price'] as List<dynamic>)
+              .map((dynamic prices) =>
+                  (prices['NGN'] as List<dynamic>).first as double)
+              .toList()
+              .first
+          : 0.00,
     );
   }
 
@@ -80,7 +95,7 @@ class Product {
 
   @override
   String toString() {
-    return 'Product(id: $id, name: $name, catergory: $catergory, imgUrl: $imgUrl, price: $price, description: $description)';
+    return 'Product(id: $id, name: $name, description: $description, categories: $categories, photos: $photos, currentPrice: $currentPrice)';
   }
 
   @override
@@ -89,19 +104,19 @@ class Product {
 
     return other.id == id &&
         other.name == name &&
-        other.catergory == catergory &&
-        other.imgUrl == imgUrl &&
-        other.price == price &&
-        other.description == description;
+        other.description == description &&
+        listEquals(other.categories, categories) &&
+        listEquals(other.photos, photos) &&
+        other.currentPrice == currentPrice;
   }
 
   @override
   int get hashCode {
     return id.hashCode ^
         name.hashCode ^
-        catergory.hashCode ^
-        imgUrl.hashCode ^
-        price.hashCode ^
-        description.hashCode;
+        description.hashCode ^
+        categories.hashCode ^
+        photos.hashCode ^
+        currentPrice.hashCode;
   }
 }

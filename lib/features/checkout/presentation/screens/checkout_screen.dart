@@ -1,46 +1,77 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../features.dart';
 import 'order_success_screen.dart';
 
 ///
-class CheckoutScreen extends StatefulWidget {
+class CheckoutScreen extends ConsumerStatefulWidget {
   /// Shows all orders
   const CheckoutScreen({super.key});
 
   @override
-  CheckoutScreenState createState() => CheckoutScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() => CheckoutScreenState();
 }
 
 ///
-class CheckoutScreenState extends State<CheckoutScreen> {
-  List<Order> _orders = <Order>[];
-
-  @override
-  void didChangeDependencies() {
-    _orders = OrderDataProvider.of(context).orders;
-    super.didChangeDependencies();
-  }
-
-  @override
-  void didUpdateWidget(covariant CheckoutScreen oldWidget) {
-    _orders = OrderDataProvider.of(context).orders;
-    super.didUpdateWidget(oldWidget);
-  }
-
+class CheckoutScreenState extends ConsumerState<CheckoutScreen> {
   @override
   Widget build(BuildContext context) {
+    final AsyncValue<List<Order>?> ordersState =
+        ref.watch(ordersDataNotifierProvider);
+
     return Scaffold(
       appBar: appBar(context: context, title: kMyCart),
       body: Padding(
         padding:
             const EdgeInsets.symmetric(horizontal: kGap_3, vertical: kGap_3),
-        child: _body(_orders),
+        child: ordersState.maybeWhen(
+          orElse: _loading,
+          loading: _loading,
+          error: (Object error, StackTrace stackTrace) => errorWidget(
+            context: context,
+            errorMsg: error.toString(),
+          ),
+          data: (List<Order>? data) {
+            if (data == null) {
+              return errorWidget(
+                context: context,
+              );
+            }
+
+            return _body(data);
+          },
+        ),
       ),
     );
   }
 
+  Widget _loading() {
+    return Center(
+        child: Column(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        SizedBox(
+          width: context.textTheme.titleLarge?.fontSize,
+          height: context.textTheme.titleLarge?.fontSize,
+          child: const CircularProgressIndicator.adaptive(),
+        ),
+        const SizedBox(height: kGap_2),
+        Text(
+          kFetchingProducts,
+          style: context.textTheme.bodySmall?.copyWith(
+            fontWeight: FontWeight.bold,
+            color: context.colorScheme.outline,
+          ),
+        ),
+      ],
+    ));
+  }
+
   Widget _body(List<Order> orders) {
     final double height = MediaQuery.of(context).size.height;
+
     return Column(
       children: <Widget>[
         // body
@@ -54,7 +85,7 @@ class CheckoutScreenState extends State<CheckoutScreen> {
                       itemCount: orders.length,
                       itemBuilder: (BuildContext context, int index) {
                         final Order order = orders[index];
-                        return orderCard(context, order);
+                        return orderCard(context, order, ref);
                       },
                       separatorBuilder: (BuildContext context, int index) =>
                           const SizedBox(height: kGap_1),
@@ -65,7 +96,7 @@ class CheckoutScreenState extends State<CheckoutScreen> {
 
         const SizedBox(height: kGap_2),
         // footer
-        _checkOutBtn(_orders),
+        _checkOutBtn(orders),
       ],
     );
   }
@@ -98,7 +129,7 @@ class CheckoutScreenState extends State<CheckoutScreen> {
     final double totalPrice = orders.isEmpty
         ? 0
         : orders
-            .map((Order order) => order.product.price * order.quantity)
+            .map((Order order) => order.product.currentPrice * order.quantity)
             .reduce((double total, double price) => total + price);
     final String price = r'$' + totalPrice.toStringAsFixed(2);
     return Hero(
@@ -136,9 +167,11 @@ class CheckoutScreenState extends State<CheckoutScreen> {
 }
 
 ///
-Widget orderCard(BuildContext context, Order order) {
+Widget orderCard(BuildContext context, Order order, WidgetRef ref) {
   final double width = MediaQuery.of(context).size.width;
-  final double totalPrice = order.product.price * order.quantity;
+  final double totalPrice = order.product.currentPrice * order.quantity;
+  final OrdersDataNotifier ordersNotifier =
+      ref.read(ordersDataNotifierProvider.notifier);
   return Container(
     height: double.infinity,
     width: width,
@@ -159,12 +192,14 @@ Widget orderCard(BuildContext context, Order order) {
             decoration: BoxDecoration(
               color: context.colorScheme.surfaceContainerHighest,
               borderRadius: BorderRadius.circular(kGap_2),
-              image: DecorationImage(
-                image: NetworkImage(
-                  order.product.imgUrl,
-                ),
-                fit: BoxFit.fill,
-              ),
+              image: order.product.photos != null
+                  ? DecorationImage(
+                      image: NetworkImage(
+                        order.product.photos!.first,
+                      ),
+                      fit: BoxFit.fill,
+                    )
+                  : null,
             ),
           ),
         ),
@@ -204,13 +239,12 @@ Widget orderCard(BuildContext context, Order order) {
 
                   const SizedBox(height: kGap_1),
                   // Quantity
-                  Flexible(
+                  FittedBox(
                     child: CounterWidget(
                       initalValue: order.quantity,
                       onCountChange: (int quantity) {
                         ///
-                        OrderDataProvider.of(context)
-                            .modifyOrderQuantity(quantity, order.id);
+                        ordersNotifier.modifyOrderQuantity(quantity, order.id);
                       },
                     ),
                   )
@@ -237,7 +271,10 @@ Widget orderCard(BuildContext context, Order order) {
 
                 // when accepted
                 if (responce) {
-                  OrderDataProvider.of(context).removeOrder(order);
+                  ref
+                      .read(ordersDataNotifierProvider.notifier)
+                      .removeNewOrder(order);
+
                   context.showSnackBar(kOrderRemoved,
                       type: SnackBarType.success);
                 }

@@ -3,14 +3,14 @@
 /// Nullable Data [T]
 ///
 /// Nullable Error [String]
-class Responce<T> {
+class CustomResponse<T> {
   /// data
   T? value;
 
   /// error
   String? error;
 
-  Responce({
+  CustomResponse({
     this.value,
     this.error,
   });
